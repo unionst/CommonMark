@@ -16,11 +16,7 @@ final class CommonMarkSpecTextualContentTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample648() throws {
@@ -35,11 +31,7 @@ final class CommonMarkSpecTextualContentTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample649() throws {
@@ -54,11 +46,7 @@ final class CommonMarkSpecTextualContentTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
 }

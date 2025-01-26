@@ -37,10 +37,4 @@ public final class Paragraph: Node {
             append(child: child)
         }
     }
-
-    #if swift(>=5.4)
-    public convenience init(@ContainerOfInlineElementsBuilder _ builder: () -> [Inline & Node]) {
-        self.init(children: builder())
-    }
-    #endif
 }

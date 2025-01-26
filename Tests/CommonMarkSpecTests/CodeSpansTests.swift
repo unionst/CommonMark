@@ -16,11 +16,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample329() throws {
@@ -35,11 +31,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample330() throws {
@@ -54,11 +46,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample331() throws {
@@ -73,11 +61,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample332() throws {
@@ -92,11 +76,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample333() throws {
@@ -111,11 +91,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample334() throws {
@@ -132,11 +108,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample335() throws {
@@ -155,11 +127,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample336() throws {
@@ -176,11 +144,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample337() throws {
@@ -196,11 +160,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample338() throws {
@@ -215,11 +175,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample339() throws {
@@ -234,11 +190,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample340() throws {
@@ -253,11 +205,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample341() throws {
@@ -272,11 +220,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample342() throws {
@@ -291,11 +235,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample343() throws {
@@ -310,11 +250,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample344() throws {
@@ -329,11 +265,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample345() throws {
@@ -348,11 +280,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample346() throws {
@@ -367,11 +295,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample347() throws {
@@ -386,11 +310,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample348() throws {
@@ -405,11 +325,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
     func testExample349() throws {
@@ -424,11 +340,7 @@ final class CommonMarkSpecCodeSpansTests: XCTestCase {
         """#######
 
         let document = try Document(markdown)
-
-        let actual = document.render(format: .html, options: [.unsafe])
-        let expected = html
-
-        XCTAssertEqual(actual, expected)
+        XCTAssertEqual(document.render(format: .html, options: [.unsafe]), html)
     }
 
 }

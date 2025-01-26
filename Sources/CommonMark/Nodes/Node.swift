@@ -1,11 +1,5 @@
 import cmark
 
-#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-import Darwin
-#elseif os(Linux)
-import Glibc
-#endif
-
 /// A CommonMark node.
 public class Node: Codable {
     class var cmark_node_type: cmark_node_type { return CMARK_NODE_NONE }
@@ -100,11 +94,6 @@ public class Node: Codable {
         }
     }
 
-    func unlink() {
-        cmark_node_unlink(self.cmark_node)
-        self.managed = true
-    }
-
     /// The line and column range of the element in the document.
     public var range: ClosedRange<Document.Position> {
         let start = Document.Position(line: numericCast(cmark_node_get_start_line(cmark_node)), column: numericCast(cmark_node_get_start_column(cmark_node)))
@@ -165,21 +154,21 @@ public class Node: Codable {
 
          - Important: This option has an effect only when rendering HTML.
          */
-        public static let unsafe = Self(rawValue: CMARK_OPT_UNSAFE)
+        public static let unsafe = RenderingOptions(rawValue: CMARK_OPT_UNSAFE)
 
         /**
          Render softbreak elements as spaces.
 
          - Important: This option has no effect when rendering XML.
          */
-        public static let noBreaks = Self(rawValue: CMARK_OPT_NOBREAKS)
+        public static let noBreaks = RenderingOptions(rawValue: CMARK_OPT_NOBREAKS)
 
         /**
          Render softbreak elements as hard line breaks.
 
          - Important: This option has no effect when rendering XML.
          */
-        public static let hardBreaks = Self(rawValue: CMARK_OPT_HARDBREAKS)
+        public static let hardBreaks = RenderingOptions(rawValue: CMARK_OPT_HARDBREAKS)
 
         /**
          Include a `data-sourcepos` attribute on all block elements
@@ -187,7 +176,7 @@ public class Node: Codable {
 
          - Important: This option has an effect only when rendering HTML or XML.
          */
-        public static let includeSourcePosition = Self(rawValue: CMARK_OPT_SOURCEPOS)
+        public static let includeSourcePosition = RenderingOptions(rawValue: CMARK_OPT_SOURCEPOS)
     }
 
     /**
@@ -205,26 +194,18 @@ public class Node: Codable {
     public func render(format: RenderingFormat, options: RenderingOptions = [], width: Int = 0) -> String {
         precondition(width >= 0)
 
-        let cString: UnsafeMutablePointer<CChar>
-
         switch format {
         case .commonmark:
-            cString = cmark_render_commonmark(cmark_node, options.rawValue, Int32(clamping: width))
+            return String(cString: cmark_render_commonmark(cmark_node, options.rawValue, Int32(clamping: width)))
         case .html:
-            cString = cmark_render_html(cmark_node, options.rawValue)
+            return String(cString: cmark_render_html(cmark_node, options.rawValue))
         case .xml:
-            cString = cmark_render_xml(cmark_node, options.rawValue)
+            return String(cString: cmark_render_xml(cmark_node, options.rawValue))
         case .latex:
-            cString = cmark_render_latex(cmark_node, options.rawValue, Int32(clamping: width))
+            return String(cString: cmark_render_latex(cmark_node, options.rawValue, Int32(clamping: width)))
         case .manpage:
-            cString = cmark_render_man(cmark_node, options.rawValue, Int32(clamping: width))
+            return String(cString: cmark_render_man(cmark_node, options.rawValue, Int32(clamping: width)))
         }
-
-        defer {
-            free(cString)
-        }
-
-        return String(cString: cString)
     }
 
     // MARK: - Codable
@@ -233,13 +214,12 @@ public class Node: Codable {
         let container = try decoder.singleValueContainer()
         let commonmark = try container.decode(String.self)
 
-        let document = try Document(commonmark, options: [])
-        let node: Node
-
         switch Self.cmark_node_type {
         case CMARK_NODE_DOCUMENT:
-            node = document
-        case CMARK_NODE_BLOCK_QUOTE,
+            let document = try Document(commonmark, options: [])
+            self.init(document.cmark_node)
+        case CMARK_NODE_DOCUMENT,
+             CMARK_NODE_BLOCK_QUOTE,
              CMARK_NODE_LIST,
              CMARK_NODE_ITEM,
              CMARK_NODE_CODE_BLOCK,
@@ -248,7 +228,15 @@ public class Node: Codable {
              CMARK_NODE_PARAGRAPH,
              CMARK_NODE_HEADING,
              CMARK_NODE_THEMATIC_BREAK:
-            node = try Self.extractRootBlock(from: document, in: container)
+            let document = try Document(commonmark, options: [])
+            let documentChildren = document.children
+            guard let block = documentChildren.first as? Self,
+                documentChildren.count == 1
+            else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "expected single block node")
+            }
+
+            self.init(block.cmark_node)
         case CMARK_NODE_TEXT,
              CMARK_NODE_SOFTBREAK,
              CMARK_NODE_LINEBREAK,
@@ -259,64 +247,30 @@ public class Node: Codable {
              CMARK_NODE_STRONG,
              CMARK_NODE_LINK,
              CMARK_NODE_IMAGE:
-            node = try Self.extractRootInline(from: document, in: container)
+            let document = try Document(commonmark, options: [])
+            let documentChildren = document.children
+            guard let paragraph = documentChildren.first as? Paragraph,
+                documentChildren.count == 1
+            else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "expected single paragraph node")
+            }
+
+            let paragraphChildren = paragraph.children
+            guard let inline = paragraphChildren.first as? Self,
+                paragraphChildren.count == 1
+            else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "expected single inline node")
+            }
+
+            self.init(inline.cmark_node)
         default:
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "unsupported node type")
         }
-
-        // If the extracted node is not managed, then we most likely
-        // introduced a memory bug in our extraction logic:
-        assert(
-            node.managed,
-            "Expected extracted node to be managed"
-        )
-
-        // Un-assign memory management duties from old owning node:
-        node.managed = false
-
-        self.init(node.cmark_node)
-
-        // Re-assign memory management duties to new owning node:
-        self.managed = true
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(description)
-    }
-
-    private static func extractRootBlock(from document: Document, in container: SingleValueDecodingContainer) throws -> Self {
-        // Unlink the children from the document node to prevent dangling pointers to the parent.
-        let documentChildren = document.removeChildren()
-        guard let block = documentChildren.first as? Self,
-            documentChildren.count == 1
-        else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "expected single block node")
-        }
-
-        assert(block.managed)
-        return block
-    }
-
-    private static func extractRootInline(from document: Document, in container: SingleValueDecodingContainer) throws -> Self {
-        // Unlink the children from the document node to prevent dangling pointers to the parent.
-        let documentChildren = document.removeChildren()
-        guard let paragraph = documentChildren.first as? Paragraph,
-            documentChildren.count == 1
-        else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "expected single paragraph node")
-        }
-
-        // Unlink the children from the root node to prevent dangling pointers to the parent.
-        let paragraphChildren = paragraph.removeChildren()
-        guard let inline = paragraphChildren.first as? Self,
-            paragraphChildren.count == 1
-        else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "expected single inline node")
-        }
-
-        assert(inline.managed)
-        return inline
     }
 }
 
@@ -332,7 +286,8 @@ extension Node: Equatable {
 
 extension Node: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(cmark_node)
+        hasher.combine(cmark_node_get_type(cmark_node).rawValue)
+        hasher.combine(cmark_render_commonmark(cmark_node, 0, 0))
     }
 }
 
@@ -340,6 +295,6 @@ extension Node: Hashable {
 
 extension Node: CustomStringConvertible {
     public var description: String {
-        self.render(format: .commonmark)
+        return String(cString: cmark_render_commonmark(cmark_node, 0, 0))
     }
 }

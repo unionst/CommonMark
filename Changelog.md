@@ -7,39 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.5.1] - 2021-05-04
-
-### Added
-
-- Added `replace(child:with:)` methods for container nodes.
-  #26 by @mattt.
-
-### Fixed
-
-- Fixed documentation for `List`.
-  #29 by @mattt.
-
-### Changed
-
-- Changed implementation of `Hashable` conformance for `Node`.
-  Previously the hash value of a node was computed from its content.
-  Now it's computed from the opaque cmark pointer.
-  #30 by @Lukas-Stuehrk.
-
-## [0.5.0] - 2021-01-14
-
-### Added
-
-- Added support for the visitor pattern,
-  by adding `protocol Visitor`/`protocol Visitable` & `enum VisitorContinueKind`.
-  #13 by @regexident.
-### Fixed
-
-- Fixed document parsing options.
-  #21 by @regexident.
-- Fixed memory leaks.
-  #22 by @regexident.
-
 ## [0.4.0] - 2020-05-01
 
 ### Added
@@ -188,9 +155,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/SwiftDocOrg/CommonMark/compare/0.5.1...main
-[0.5.1]: https://github.com/SwiftDocOrg/CommonMark/releases/tag/0.5.1
-[0.5.0]: https://github.com/SwiftDocOrg/CommonMark/releases/tag/0.5.0
+[unreleased]: https://github.com/SwiftDocOrg/CommonMark/compare/0.4.0...master
 [0.4.0]: https://github.com/SwiftDocOrg/CommonMark/releases/tag/0.4.0
 [0.3.2]: https://github.com/SwiftDocOrg/CommonMark/releases/tag/0.3.2
 [0.3.1]: https://github.com/SwiftDocOrg/CommonMark/releases/tag/0.3.1

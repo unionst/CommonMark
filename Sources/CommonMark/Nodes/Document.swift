@@ -20,7 +20,7 @@ public final class Document: Node {
            en-dashes (–) and em-dashes (—)
          - Three consecutive full stops (...) become an ellipsis (…)
          */
-        public static let smart = Self(rawValue: CMARK_OPT_SMART)
+        public static let smart = RenderingOptions(rawValue: CMARK_OPT_SMART)
     }
 
     /// A position within a document.
@@ -57,13 +57,11 @@ public final class Document: Node {
           if a document couldn't be constructed with the provided source.
      */
     public convenience init(_ commonmark: String, options: ParsingOptions = []) throws {
-        guard let cmark_node = cmark_parse_document(commonmark, commonmark.utf8.count, options.rawValue)
-        else {
+        guard let cmark_node = cmark_parse_document(commonmark, commonmark.utf8.count, 0) else {
             throw Error.invalid
         }
 
         self.init(cmark_node)
-        self.managed = true
     }
 
     public convenience init(children: [Block & Node] = []) {
@@ -73,12 +71,6 @@ public final class Document: Node {
             append(child: child)
         }
     }
-
-    #if swift(>=5.4)
-    public convenience init(options: ParsingOptions = [], @ContainerOfBlocksBuilder _ builder: () -> [Block & Node]) {
-        self.init(children: builder())
-    }
-    #endif
 }
 
 // MARK: - Comparable
