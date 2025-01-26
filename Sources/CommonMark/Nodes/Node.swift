@@ -1,5 +1,11 @@
 import cmark
 
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+import Darwin
+#elseif os(Linux)
+import Glibc
+#endif
+
 /// A CommonMark node.
 public class Node: Codable {
     class var cmark_node_type: cmark_node_type { return CMARK_NODE_NONE }
